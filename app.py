@@ -1,5 +1,24 @@
 import streamlit as st
 from datetime import datetime
+import os
+import json
+
+class Blogs:
+    def __init__(self, file_path = 'blog_entries.json'):
+        self.file_path = file_path
+
+    def get_blogs(self):
+        if os.path.exists(self.file_path):
+            try:
+                with open(self.file_path, 'r') as f:
+                    data = json.load(f)
+                return data
+            except Exception as e:
+                return f"Error reading file: {str(e)}"
+        else:
+            return "Blog file not found"
+
+
 
 st.set_page_config(page_title="Kevin Otieno | Built from Scarcity", layout="wide")
 
@@ -73,10 +92,16 @@ elif page == "Projects":
     st.markdown("**Outcome** — Buy back time. Redeploy energy. Reclaim clarity.")
 
 elif page == "Blog":
-    st.header("Running Streak Reflections")
-    st.write("Weekly entries on rhythm, authorship, and survival.")
-    st.markdown(f"**Day 1 Lever** — String comparison in Python. `{datetime.now().strftime('%Y-%m-%d')}`")
-    st.markdown("**Day 2 Lever** — Logical operators and truth dominance.")
+    blog_data = Blogs().get_blogs()
+    if isinstance(blog_data, dict):
+        for date, entries in blog_data.items():
+            st.subheader(f"📅 {date}")
+            for title, content in entries.items():
+                st.markdown(f"### {title}")
+                st.write(content)
+                st.markdown("---")
+    else:
+        st.warning(blog_data)
 
 elif page == 'Contact Me':
     st.header("📬 Let's Build from Reality")

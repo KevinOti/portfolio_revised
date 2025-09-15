@@ -67,6 +67,7 @@ if page == "Home":
 elif page == "Projects":
     st.header("Field Rythm")
     st.markdown("*Turning silent data into actionable insight through rhythm-based analysis*")
+    st.image('pulse.png', width=650)
     st.write("We collect data through application—as is the norm for many. " \
     "But data only communicates when interrogated for meaning. " \
     "Most of the time, it sits silent. Yet this silence is what keeps the field in rhythm, built for clarity.")
@@ -77,6 +78,7 @@ elif page == "Projects":
 
     st.header("Backend Engagement")
     st.markdown("*Extracting decisions from minimal inputs using behavioral nudging and daily loops*")
+    st.image('ordering cycle.png', width=650)
     st.write("So much is stored in spreadsheets and databases. But what have we truly asked of them?")
     st.markdown("**Insight** - Even with just two features, data can communicate—if we script it with intention.")
     st.markdown("**System** - A backend nudging engine that sends daily email cues, helping teams make decisions from minimal inputs.")
@@ -85,6 +87,7 @@ elif page == "Projects":
     
     st.header("Buy Back Time")
     st.markdown("*Reclaiming hours through reporting systems that mirror reality, not bureaucracy*")
+    st.image('sample_report.png', width=650)
     st.write("How long does it take to send out that report? In the age of data, time is currency.")
     st.markdown("**Insight** — Reporting shouldn’t be a burden—it should be a mirror.")
     st.markdown("**System** — A reporting engine that reduced turnaround from 7 days to 1 hour " \
@@ -94,7 +97,8 @@ elif page == "Projects":
 elif page == "Blog":
     blog_data = Blogs().get_blogs()
     if isinstance(blog_data, dict):
-        for date, entries in blog_data.items():
+        for date in sorted(blog_data.keys(), reverse=True):
+            entries = blog_data[date]
             st.subheader(f"📅 {date}")
             for title, content in entries.items():
                 st.markdown(f"### {title}")
